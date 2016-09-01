@@ -1,3 +1,4 @@
+var bool = true;
 //  game numbers
 var number = 5;
 var round = 0;
@@ -23,6 +24,13 @@ function logState() {
   console.log("pile B = " + b);
   console.log("pile C = " + c);
   round++;
+
+  if ((a.length === 0) && (b.length === 0) && (c.length === 0)) {
+      if (bool) {
+        alert("Like Charlie Sheen said Winning!!!");
+      } alert("Game Over");
+  }
+
 }
 
 logState();
@@ -61,7 +69,6 @@ function NumTonumber(pile) {
 }
 
 function removeArr(pile, num) {
-//if(main[pile].length) {
   console.log("array length "+ main[pile].length);
   console.log("number is " + num);
 
@@ -76,19 +83,21 @@ function removeArr(pile, num) {
     }
     logState();
   }
-
 }
 
-function PcRemoveArr(pile, num) {
-  if(main[pile].length >= num) {
-    for(var i = 0; i < num; i++) {
-      main[pile].pop();
-    }
-    logState();
-  } else {
+function pcRemoveArr(pile, num) {
+
+  if(main[pile].length == 0 || main[pile].length < num) {
       pcTurn();
+  } else {
+      for(var i = 0; i < num; i++) {
+          main[pile].pop();
+      }
+      logState();
   }
 }
+
+
 
 function userTurn() {
   var userData = prompt("select pile and number (eg. b2)");
@@ -107,15 +116,14 @@ function randomNum(min, max) {
 function pcTurn() {
   var pile = randomNum(0,3);
   var number = randomNum(1,6);
-  removeArr(pile,number);
+  pcRemoveArr(pile,number);
   alert("computer took " + number + " from " +  NumTonumber(pile));
   loopGame();
 }
 function loopGame() {
-  var bool = true;
   if(bool) {
     userTurn();
-  } userTurn(); //pcTurn();
+  } pcTurn();
   bool = !bool;
 }
 
