@@ -1,8 +1,8 @@
-var bool = false;
+var bool = true;
 var endGame = false;
 //  game numbers
 var number = 5;
-var round = 0;
+var round = 1;
 //arrays
 var main = [];
 var a = [];
@@ -20,7 +20,18 @@ main[1] = b;
 main[2] = c;
 
 function logState() {
-  console.log("******* round " + round + " " + bool +" ********");
+  var userStr = "User";
+  var pcStr = "Computer";
+  var turnStr = "";
+
+  if (!bool) {
+    turnStr = userStr;
+  } else {
+      turnStr = pcStr;
+  }
+
+
+  console.log("---> Round " + round + " " + turnStr +" turn <---");
   console.log("pile A = " + a);
   console.log("pile B = " + b);
   console.log("pile C = " + c);
@@ -30,13 +41,14 @@ function logState() {
       if (bool) {
         console.log("You are the Winner!!!");
       } else {
-        console.log("Game Over");
+        console.log("You lose");
       }
+      endGame = true;
   }
   bool = !bool;
+  loopGame();
 }
 
-logState();
 
 function numberToNum(pile) {
   switch (pile) {
@@ -100,6 +112,7 @@ function pcRemoveArr(pile, num) {
       for(var i = 0; i < num; i++) {
           main[pile].pop();
       }
+      alert("computer took " + num + " from pile " +  NumTonumber(pile));
       logState();
   }
 }
@@ -108,23 +121,18 @@ function pcTurn() {
 
   if ((main[0].length === 0) && (main[1].length === 0))  {
     var num = main[2].length;
-    alert("computer took " + num + " from " +  NumTonumber(2));
     pcRemoveArr(2,num);
   } else if ((main[1].length === 0) && (main[2].length === 0)) {
-    alert("computer took " + num + " from " +  NumTonumber(0));
     var num = main[0].length;
     pcRemoveArr(0,num);
   } else if ((main[0].length === 0) && (main[2].length === 0)) {
     var num = main[1].length;
-    alert("computer took " + num + " from " +  NumTonumber(1));
     pcRemoveArr(1,num);
   } else {
     var pile = randomNum(0,3);
     var number = randomNum(1,6);
     pcRemoveArr(pile,number);
-    alert("computer took " + number + " from " +  NumTonumber(pile));
   }
-  loopGame();
 }
 
 function randomNum(min, max) {
@@ -132,15 +140,17 @@ function randomNum(min, max) {
   return rNum
 }
 
-
 function loopGame() {
   if (endGame) {
-    console.log("game over");
+    console.log("GAME OVER");
+    return;
   } else {
     if(bool) {
       userTurn();
-    } pcTurn();
+    } else {
+      pcTurn();
+
+    }
   }
 }
-
-loopGame();
+logState();
